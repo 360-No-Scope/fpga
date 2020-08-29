@@ -1,0 +1,16 @@
+Fitter Status : Successful - Tue Dec 03 07:54:36 2019
+Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
+Revision Name : Serial_360
+Top-level Entity Name : Serial_360
+Family : Cyclone IV E
+Device : EP4CE22F17C6
+Timing Models : Final
+Total logic elements : 13,434 / 22,320 ( 60 % )
+    Total combinational functions : 10,884 / 22,320 ( 49 % )
+    Dedicated logic registers : 8,466 / 22,320 ( 38 % )
+Total registers : 8466
+Total pins : 24 / 154 ( 16 % )
+Total virtual pins : 0
+Total memory bits : 0 / 608,256 ( 0 % )
+Embedded Multiplier 9-bit elements : 0 / 132 ( 0 % )
+Total PLLs : 0 / 4 ( 0 % )

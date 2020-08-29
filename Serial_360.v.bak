@@ -1,0 +1,228 @@
+/////////////////////////////////////////////////////////////////////
+//
+//Not so many comments because I hated writing this, so you should hate reading this.
+//
+//JK, this is all GROUPED into 2 main modules. Putting that grouping knowledge to good work lel
+//
+//
+/////////////////////////////////////////////////////////////////////
+
+module Serial_360 (input clk, //50MHz clock
+					input Button1,
+					input Button2,
+					input Store_Values,
+					input Pin_GPIO_09,
+					input Pin_GPIO_011,
+					input Pin_GPIO_013,
+					input Pin_GPIO_015,
+					input Pin_GPIO_017,
+					input Pin_GPIO_019,
+					input Pin_GPIO_021,
+					input Pin_GPIO_023,
+					output reg Pin25MhZ,
+					output reg Pin25MhZ_2,
+					output reg led0,
+					output reg led1,
+					output reg led2,
+					output reg led3,
+					output reg led4,
+					output reg led5,
+					output reg led6,
+					output reg led7);
+
+	reg [31:0] counter;
+	reg [4:0] counter25M;
+	reg [9:0] StoreCount;
+	reg [9:0] DisplayCount;
+	reg SpiStart;
+	reg [10:0] SpiCounter;
+	
+	reg HoldL0;
+	reg HoldL1;
+	reg HoldL2;
+	reg HoldL3;
+	reg HoldL4;
+	reg HoldL5;
+	reg HoldL6;
+	reg HoldL7;	
+	
+//array setup
+//note: setting initial array values must be done in initial block
+
+	reg [7:0] Values1 [511:0]; //8 bits, 512 bytes
+	reg [7:0] HoldValues;
+ /*	
+initial
+	begin
+		SpiCounter = 0;
+		StoreCount = 0;
+		SpiStart = 0;
+		DisplayCount = 0;
+		r_Rst_L = 1'b0;
+	end
+*/
+
+
+	
+//	always @ (negedge Button1)
+//	begin
+//		if (counter25M == 1)
+//		begin
+//
+//			counter25M <= 0;
+//			led2 <= ~led2;
+			
+//		end
+		
+//		else
+//		begin
+//			counter25M <= counter25M + 1;
+//		end
+		
+	
+//	end
+
+
+//Array testing
+//----------------------------------------------
+
+
+always @ (negedge Button1)
+	begin
+		if (StoreCount == 10)
+		begin
+			StoreCount <= 0;
+		end
+		
+		else
+		begin
+			StoreCount <= StoreCount + 1;
+		end
+		
+	end
+
+
+always @ (negedge Store_Values)
+	begin
+	Values1[StoreCount][0] <= Pin_GPIO_023;//first number is 0-511 bytes, second number is 0-7 bits
+	Values1[StoreCount][1] <= Pin_GPIO_021;
+	Values1[StoreCount][2] <= Pin_GPIO_019;
+	Values1[StoreCount][3] <= Pin_GPIO_017;
+	Values1[StoreCount][4] <= Pin_GPIO_015;
+	Values1[StoreCount][5] <= Pin_GPIO_013;
+	Values1[StoreCount][6] <= Pin_GPIO_011;
+	Values1[StoreCount][7] <= Pin_GPIO_09;	
+	end
+	
+always @ (negedge Button2)
+	begin
+		if (DisplayCount == 10)//if equals 511
+		begin
+			DisplayCount <= 0;			
+		end
+		
+		else
+		begin
+			DisplayCount <= DisplayCount + 1;
+		end
+		
+	end
+*/
+/*
+	assignoutled LEDout(//instantiate
+		.Values(r_Master_RX_Byte),//instead of Values1
+		.clk(r_Master_RX_DV),//instead of clk
+		.Number(0),//instead of DisplayCount
+		.led00(HoldL0),
+		.led11(HoldL1),
+		.led22(HoldL2),
+		.led33(HoldL3),
+		.led44(HoldL4),
+		.led55(HoldL5),
+		.led66(HoldL6),
+		.led77(HoldL7)
+	);
+*/
+
+//assign HoldL3 = HoldValues[3];
+
+always @ (posedge r_Master_RX_DV)
+	begin
+		//HoldL0 <= r_Master_RX_Byte[0];
+		//HoldL1 <= r_Master_RX_Byte[1];
+		//HoldL2 <= r_Master_RX_Byte[2];
+		//HoldL3 <= r_Master_RX_Byte[3];
+		//HoldL4 <= r_Master_RX_Byte[4];
+		//HoldL5 <= r_Master_RX_Byte[5];
+		//HoldL6 <= r_Master_RX_Byte[6];
+		//HoldL7 <= r_Master_RX_Byte[7];
+	end
+always @ (negedge Button2)
+	begin
+		//led7 <= HoldL7;
+		//led6 <= HoldL6;
+		//led5 <= HoldL5;
+		//led4 <= HoldValues[4];
+		//led3 <= HoldL3;
+		//led2 <= r_Master_RX_Byte[2];
+		//led1 <= HoldL1;
+		//led0 <= HoldL0;
+	end
+
+//----------------------------------------------------	
+
+	
+//NOTES:
+
+//in the case of combinational logic we had "=" for assignment, and for the sequential block we had the "<=" operator.
+//Well, "=" is blocking assignment and "<=" is nonblocking assignment. "=" executes code sequentially inside a begin / end, whereas nonblocking "<=" executes in parallel.	
+
+
+endmodule
+
+//-------------------------------------------
+
+module assignoutled (input [7:0] Values,//instead of input [7:0] Values [511:0]
+					input clk,
+					input [9:0] Number,
+					output reg led00,
+					output reg led11,
+					output reg led22,
+					output reg led33,
+					output reg led44,
+					output reg led55,
+					output reg led66,
+					output reg led77);
+
+	always @ (posedge clk)
+	begin
+		led77 <= Values[7];//instead of Values[Number][7]
+		led66 <= Values[6];//instead of Values[Number][6]
+		led55 <= Values[5];//instead of Values[Number][5]
+		led44 <= Values[4];//instead of Values[Number][4]
+		led33 <= Values[3];//instead of Values[Number][3]
+		led22 <= Values[2];//instead of Values[Number][2]
+		led11 <= Values[1];//instead of Values[Number][1]
+		led00 <= Values[0];//instead of Values[Number][0]
+
+	end					
+
+						
+endmodule
+
+
+module UARTSend 
+			#(parameter CLK_per_bit = 434,// 50MHz/115200 = 434 clks per bit
+			parameter Clk_per_half_bit = 217// 434/2
+			)
+	 
+			(input [7:0] Values,//input a byte
+			input clk,//duh
+			output reg TX_Signal,//
+			output reg TX_Sending,//high while sending
+			output reg TX_Finished//high when finished
+			);
+	
+		
+					
+endmodule

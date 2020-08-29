@@ -1,0 +1,1 @@
+Warning (10268): Verilog HDL information at Serial_360.v(406): always construct contains both blocking and non-blocking assignments File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 406

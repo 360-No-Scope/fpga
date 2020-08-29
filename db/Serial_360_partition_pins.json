@@ -1,0 +1,97 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "ToggleOnSampleFreq",
+					"strict" : false
+				},
+				{
+					"name" : "GPIO_03",
+					"strict" : false
+				},
+				{
+					"name" : "CLK_25MHz",
+					"strict" : false
+				},
+				{
+					"name" : "led0",
+					"strict" : false
+				},
+				{
+					"name" : "led1",
+					"strict" : false
+				},
+				{
+					"name" : "led2",
+					"strict" : false
+				},
+				{
+					"name" : "led3",
+					"strict" : false
+				},
+				{
+					"name" : "led4",
+					"strict" : false
+				},
+				{
+					"name" : "led5",
+					"strict" : false
+				},
+				{
+					"name" : "led6",
+					"strict" : false
+				},
+				{
+					"name" : "led7",
+					"strict" : false
+				},
+				{
+					"name" : "clk",
+					"strict" : false
+				},
+				{
+					"name" : "GPIO_01",
+					"strict" : false
+				},
+				{
+					"name" : "GPIO_29",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_7",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_6",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_5",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_4",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_3",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_2",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_1",
+					"strict" : false
+				},
+				{
+					"name" : "ADC_0",
+					"strict" : false
+				}
+			]
+		}
+	]
+}

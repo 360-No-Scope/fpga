@@ -1,0 +1,28 @@
+
+State Machine - |Serial_360|StateSending
+Name StateSending.000 StateSending.010 StateSending.001 
+StateSending.000 0 0 0 
+StateSending.001 1 0 1 
+StateSending.010 1 1 0 
+
+State Machine - |Serial_360|StoreData:comb_16671|State
+Name State.0011 State.0010 State.0001 State.0000 State.0100 
+State.0000 0 0 0 0 0 
+State.0001 0 0 1 1 0 
+State.0010 0 1 0 1 0 
+State.0011 1 0 0 1 0 
+State.0100 0 0 0 1 1 
+
+State Machine - |Serial_360|UARTRX:UARTRX_Inst|RXState
+Name RXState.011 RXState.010 RXState.001 RXState.000 
+RXState.000 0 0 0 0 
+RXState.001 0 0 1 1 
+RXState.010 0 1 0 1 
+RXState.011 1 0 0 1 
+
+State Machine - |Serial_360|UARTSend:UARTSend_Inst|SendingState
+Name SendingState.011 SendingState.010 SendingState.001 SendingState.000 
+SendingState.000 0 0 0 0 
+SendingState.001 0 0 1 1 
+SendingState.010 0 1 0 1 
+SendingState.011 1 0 0 1 

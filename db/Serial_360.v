@@ -1,0 +1,1170 @@
+///////////////////////////////////////////////////////////////////////////////////////
+//
+//This is the proud work of Group 2, ask Matt (me) about how it works. Not that I really know.
+//
+//Not so many comments because I hated writing this, so you should hate reading this.
+//
+//JK, this is all GROUPED into 5 main modules. Putting that GROUPING knowledge to good work lel
+//See what I did there?
+//
+//MODULES:	Serial_360 (Top level module)
+//				UARTSend
+//				UARTRX
+//				SetParameters 
+//				StoreData
+//
+//NOTE: SET FILE>FILE PROPERTIES TO SYSTEMVERILOG!!! 2D arrrays do not work in verilog 2001!
+///////////////////////////////////////////////////////////////////////////////////////
+
+
+module Serial_360 (input clk, //50MHz clock
+					input Button1,
+					input Button2,
+					input GPIO_29,
+					input wire ADC_0,
+					input wire ADC_1,
+					input wire ADC_2,
+					input wire ADC_3,
+					input wire ADC_4,
+					input wire ADC_5,
+					input wire ADC_6,
+					input wire ADC_7,
+					output wire ToggleOnSampleFreq,
+					output wire GPIO_03,//currently used as TX signal
+					input wire GPIO_01,//currently RX Signal
+					output wire CLK_25MHz,//send to ADC
+					output wire led0,
+					output wire led1,
+					output wire led2,
+					output wire led3,
+					output wire led4,
+					output wire led5,
+					output wire led6,
+					output wire led7);
+	
+	reg OldButton1State;
+	
+	//initial setup
+
+	
+	//talk to UARTSend
+	reg SendByte;
+	reg TX_Signal;
+	reg TX_Sending;
+	reg TX_Finished;
+	 
+	
+	//talk to UARTRX
+	wire RX_Signal;
+	reg RX_DataValid;
+	reg RX_Receiving;
+
+	//ADC Values array Setup
+	reg [7:0] Values1 [511:0]; //8 bits, 1023 bytes
+	reg [10:0] StoreCount;//Count through Values1 (needs one more than 1023)
+	reg [7:0] RecdByte;
+	
+	//Sample Collecting
+	reg [7:0] TriggerValue;
+	reg [31:0] SampleRate;//AKA "time between samples." In real world terms, this is multiplied by the period the ADC works at, i.e. 4*10^(-8).
+	reg [8:0] TrackingSend;//holds byte number to start sending in ValuesToSend
+	reg CollectData;//High when it's OK to collect data
+	reg RequestData;//high when a new array of values is requested in order to be sent, should only be high for one clock
+	reg [9:0] Tracking2;
+	reg [7:0] Values2 [511:0];
+	
+	//track during sending
+	reg [2:0] StateSending;//Statemachine
+	reg [10:0] Count1023;
+	reg [7:0] ByteToSend;
+	
+localparam CLK_per_bit = 434;// 50MHz/115200 = 434 cocks per bit
+localparam CLK_per_half_bit = 217;// 434/2 = 217 cocks
+localparam Default_Trigger = 20;//SHOULD BE 127
+localparam Default_SR = 97656;//1 sec window is 97656
+
+//endtest
+	reg [3:0] StateSetParams;
+//UART COMMUNICATIONS ASSIGNMENTS
+assign GPIO_03 = TX_Signal;
+assign RX_Signal = GPIO_01;
+
+always @ (negedge clk)
+	begin
+		CLK_25MHz <= ~CLK_25MHz;//create 25MHz clock
+	end
+
+
+
+always @ (posedge clk)//On button1 press, copy updated data from Buffer. All this other shit is there so RequestData is not held high for more than one clock cycle
+	begin
+/*	
+		if (Button1 == 0)
+		begin
+		
+			if (OldButton1State == 0)
+			begin
+				RequestData <= 1;
+				OldButton1State <= 1;
+			end
+			else
+			begin
+				//copy data
+				Values1 <= Values2;
+				TrackingSend <= Tracking2;
+				RequestData <= 0;
+			end
+			
+		end
+		else//if button == 1, reset oldbuttonstate to 0
+		begin
+
+			OldButton1State <= 0;
+		end
+	*/	
+
+		if (GPIO_29 == 1)
+		begin
+		
+			if (OldButton1State == 0)
+			begin
+				RequestData <= 1;
+				OldButton1State <= 1;
+			end
+			else
+			begin
+				//copy data
+				Values1 <= Values2;
+				TrackingSend <= Tracking2;
+				RequestData <= 0;
+			end
+			
+		end
+		else//if button == 1, reset oldbuttonstate to 0
+		begin
+
+			OldButton1State <= 0;
+		end
+	
+	if (StateSending == 0)
+	begin
+		if (RequestData == 1)
+		begin
+			Count1023 <= 0;
+			StateSending <= 1;
+		end
+	end//END STATE 0
+	
+	if (StateSending == 1)
+	begin
+		if(TX_Finished == 1)
+		begin
+			StateSending <= 2;
+			ByteToSend <= Values1[TrackingSend];
+			TrackingSend <= TrackingSend + 1;
+			SendByte <= 1;
+			Count1023 <= Count1023 + 1;
+		end
+	end//END STATE 1
+	
+	if (StateSending == 2)
+	begin
+		SendByte <= 0;
+		if(Count1023 == 512)//NOW 512
+		begin
+			Count1023 <= 0;
+			StateSending <= 0;
+		end
+		else
+		begin
+			StateSending <= 1;
+		end
+	end
+		
+	end//end posedge clk	
+
+	
+always @ (negedge Button2)
+	begin
+		if (StoreCount == 9)
+		begin
+			StoreCount <= 0;
+		end
+		
+		else
+		begin
+			StoreCount <= StoreCount + 1;
+		end
+		
+	end
+
+
+always @ (posedge clk)//initial start, ensure collectdata is only high after triggervalue and samplerate have been written to
+begin
+	if(TriggerValue > 0)
+	begin
+		if (SampleRate > 0)
+		begin
+			CollectData <= 1;
+		end
+	end
+	else
+	begin
+		CollectData <= 0;
+	end
+end	
+	
+//MODULE INSTANTIATIONS:
+
+//Instantiate UARTSend
+UARTSend
+	#(.CLK_per_bit(CLK_per_bit)
+	) UARTSend_Inst
+	(
+		//Inputs to UARTSend
+		.Values(ByteToSend),
+		.clk(clk),
+		.SendByte(SendByte),
+		
+		//Module Outputs 1
+		.TX_Signal(TX_Signal),
+		.TX_Sending(TX_Sending),
+		.TX_Finished(TX_Finished)
+	);
+	
+//Instantiate UARTRX	
+UARTRX
+	#(.CLK_per_bit(CLK_per_bit),
+	.CLK_per_half_bit(CLK_per_half_bit)
+	) UARTRX_Inst
+	(
+		//Inputs to UARTSend
+		.clk(clk),//sending button2 as clk to test
+		.RX_Signal(RX_Signal),
+		.Reset(1),//send 1; because
+		
+		//Module Outputs
+		.Values(RecdByte),
+		.RX_DataValid(RX_DataValid),
+		.RX_Receiving(RX_Receiving)
+	);
+
+//Instantiate SetParameters	
+SetParameters
+	#(.Default_Trigger(Default_Trigger),
+	.Default_SR(Default_SR)
+	)
+	(
+		//Inputs to SetParameters
+		.clk(clk),
+		.RecdByte(RecdByte),
+		.RX_DV(RX_DataValid),
+		.RX_Receiving(RX_Receiving),
+		
+		//Outputs
+		.TriggerValue(TriggerValue),
+		.State(StateSetParams),
+		.SampleRate(SampleRate)
+	);
+	
+//Instantiate StoreData
+StoreData
+	(
+		//Inputs 
+		.clk(clk),
+		.CLK_25MHz(CLK_25MHz),
+		.ADC_0(ADC_0),
+		.ADC_1(ADC_1),
+		.ADC_2(ADC_2),
+		.ADC_3(ADC_3),
+		.ADC_4(ADC_4),
+		.ADC_5(ADC_5),
+		.ADC_6(ADC_6),
+		.ADC_7(ADC_7),
+		.TriggerVal(TriggerValue),
+		.SampleRate(SampleRate),
+		.RequestData(RequestData),
+		.CollectData(CollectData),
+		.RisingEdge(1),
+		
+		//Outputs
+		.ToggleOnSampleFreq(ToggleOnSampleFreq),
+		.Values(Values2),
+		.Tracking2(Tracking2),
+	);
+	
+
+	
+//DEBUGGING SIGNALS, JUST WHATEVER, CHANGES CONSTANTLY
+/*
+assign led0 = SampleRate[0];
+assign led1 = SampleRate[1];
+assign led2 = SampleRate[2];
+assign led3 = SampleRate[3];
+assign led4 = SampleRate[4];
+assign led5 = SampleRate[5];
+assign led6 = SampleRate[6];
+assign led7 = SampleRate[7];
+*/
+
+assign led0 = SampleRate[0];
+assign led1 = SampleRate[1];
+assign led2 = SampleRate[2];
+assign led3 = SampleRate[3];
+assign led4 = SampleRate[4];
+assign led5 = SampleRate[5];
+assign led6 = SampleRate[6];
+assign led7 = SampleRate[7];
+/*
+always @ (posedge clk)//put some shit in there to test with
+	begin	
+		Values1[0] <= 8'h66;
+		Values1[1] <= 8'b00000001;
+		Values1[2] <= 8'h69;
+		Values1[3] <= 8'b00000001;
+		Values1[4] <= 8'b00000101;
+		Values1[5] <= 8'b00000110;
+		Values1[6] <= 8'b00000111;
+		Values1[7] <= 8'b00001000;
+		Values1[8] <= 8'b00001001;
+		Values1[9] <= 8'b00001010;
+		
+	end
+*/	
+/*
+always @ (posedge clk)//On button1 press, send UART transmission. All this other shit is there so SendByte is not held high for more than one clock cycle
+	begin
+		
+		if (Button1 == 0)
+		begin
+		
+			if (OldButton1State == 0)
+			begin
+				SendByte <= 1;
+				OldButton1State <= 1;
+			end
+			else
+			begin
+				SendByte <= 0;
+			end
+			
+		end
+		else//if button == 1, reset oldbuttonstate to 0
+		begin
+			OldButton1State <= 0;
+		end
+	end
+	*/
+
+endmodule//end Serial_360 
+
+//IF YOU THINK SPACES ARE BETTER THAN TABS YOU CAN GET THE FUCK OUT MY CODE
+
+//--------------------------------------------------------------------------------------
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+//Module UARTSend:
+//			-To twork it, write the byte to be sent to Values
+//			-Then toggle SendByte
+//			-When TX_Sending has been written high, write SendByte low, and can write a new byte to Values
+//			-Can use TX_Finished as "ready" signal
+//
+//I/O:	See comments after each
+//
+//Code may not be gr8, I wrote this from scratch without any reference code.
+//
+///////////////////////////////////////////////////////////////////////////////////////
+module UARTSend 
+			#(parameter CLK_per_bit = 434// 50MHz/115200 = 434 cocks per bit
+			)
+	 
+			(
+			input reg [7:0] Values,//input a byte
+			input clk,//duh.
+			input SendByte,//put high to send the byte
+			
+			//Module Outputs
+			output reg TX_Signal,//Signal to go on output pin
+			output reg TX_Sending,//high when sending
+			output reg TX_Finished//high when finished, use as "ready" signal
+			);
+			
+	reg [2:0] SendingState;
+	reg [7:0] Byte_Sending;
+	reg [31:0] Counter;//track clock pulses
+	reg [4:0] BitSending;//track the bit we're sending, 0-7
+	
+	
+	//State machine SendingState
+	//State 0 = idle
+	//State 1 = during startbit
+	//state 2 = sending byte serially, LSB first
+	//state 3 = during stopbit
+	//state 4 = JK, SendingState is only 2 bits long
+	always @ (posedge clk)
+	begin
+	
+		if (SendingState == 0)//STATE 0
+			Byte_Sending <= Values;
+		begin
+			TX_Signal <= 1;//Sending Signal is high in idle
+			TX_Finished <= 1;//Ready Signal high in idle 
+			
+			if (SendByte == 1)//go to state 1
+			begin
+				TX_Finished <= 0;
+				SendingState <= 1;
+			end
+
+		end//END STATE 0
+		
+		if (SendingState == 1)//STATE 1 sending start bit
+		begin
+			
+			TX_Signal <= 0;//write signal low for start bit
+			TX_Sending = 1;//Uart is sending	
+			TX_Finished <= 0;//set finished low
+			
+			if (Counter == CLK_per_bit - 1)//if Counter made it to a bit, exit to state 2
+			begin
+				Counter <= 0;
+				SendingState <= 2;
+			end
+			
+			else//else if not at clock per bit, count by one
+			begin
+				Counter <= Counter + 1;
+			end
+	
+		end//END STATE 1
+		
+		if (SendingState == 2)//STATE 2 sending bits
+		begin
+			TX_Finished <= 0;
+			if (Counter == CLK_per_bit - 1)//if Counter made it to clocks in a bit, reset counter to 0 and either increment the Bit we're Sending or exit state 
+			begin				
+				
+				Counter <= 0;
+				
+				if (BitSending == 7)//if we've sent 0-7 bits, reset bitsending and exit state
+				begin
+					BitSending <= 0;
+					SendingState <= 3;
+				end
+				
+				else//if still sending bits, increment bitsending
+				begin
+					BitSending <= BitSending + 1;
+				end
+				
+			end
+			
+			else//else if not at clock per bit, count by one
+			begin
+				TX_Signal <= Byte_Sending[BitSending];//write signal pin
+				Counter <= Counter + 1;
+			end
+	
+		end//END STATE 2	
+	
+		if (SendingState == 3)//STATE 3 sending stop bit
+		begin
+			TX_Finished <= 0;
+			TX_Signal <= 1;//write signal high for stop bit	
+			if (Counter == CLK_per_bit - 1)//if Counter made it to a bit time, exit to state 0 IDLE
+			begin
+				Counter <= 0;
+				SendingState <= 0;//reset to idle
+				TX_Sending = 0;//Not sending anymore
+			end
+			
+			else//else if not at clock per bit, count by one
+			begin
+				Counter <= Counter + 1;
+			end
+	
+		end//END STATE 3	
+		
+		
+	end//end statemachine
+	
+	
+//16 > 17
+					
+endmodule
+
+///////////////////////////////////////////////////////////////////////////////////////
+//Module UARTRX:
+//		-Once instantiated and "Reset" is high, this module will always be listening on the
+//			RX_Signal pin.
+//		-When receiving a byte, RX_Receiving will be high.
+//		-When a byte is received, RX_DataValid will go high. Whenever RX_DataValid is high,
+//			Values can be copied out, and will not be changing.
+//		-RX_DataValid  will be high during "idle" (the second half of the stop bit in a UART
+//			transmission, and during waiting period between byte) after the first byte since
+//			starting the FPGA
+//	
+//NOTE: RX_Signal must be connected and normally high BEFORE "Reset" is written high. If
+//		RX_Signal is not in normal operation high, UARTRX will constantly be reading. This
+//		can be designed around in code if expecting a particular start byte, as in this case
+//		the output byte will be constantly zero.
+//
+//Code may not be gr8, I wrote this from scratch without any reference code.
+//
+///////////////////////////////////////////////////////////////////////////////////////
+
+
+module UARTRX 
+			#(parameter CLK_per_bit = 434,// 50MHz/115200 = 434 cocks per bit
+			parameter CLK_per_half_bit = 217//434/2 = 217 cocks
+			)
+	 
+			(
+			input clk,//duh.
+			input reg RX_Signal,//Wire tied to input RX pin
+			input reg Reset,//Reset must be high in order for receiving to work
+			
+			//Module Outputs
+			output reg [7:0] Values,//output full received byte
+			output reg RX_DataValid,//High when RX'd data is valid
+			output reg RX_Receiving//high when Receiving
+			);
+			
+	reg [2:0] RXState;
+	reg [31:0] Counter;//track clock pulses
+	reg [4:0] BitReceiving;//track the bit we're receiving, 0-7
+	
+	//State machine RXState
+	//State 0 = idle
+	//State 1 = waiting first half of startbit
+	//state 2 = receiving byte serially, LSB first
+	//state 3 = during stopbit
+	//state 4 = JK, RXState is only 2 bits long
+	always @ (posedge clk)
+	begin
+	
+	if (Reset == 1)//ensure reset is high
+	begin
+		if (RXState == 0)//STATE 0 IDLE
+		
+		begin
+			
+			if (RX_DataValid == 1)//Write DV high during state zero ONLY IF it was high from a previous received byte
+			begin
+				RX_DataValid <= 1;
+			end
+			else
+			begin
+				RX_DataValid <= 0;//DV only if there was a previous valid transmission
+			end
+			RX_Receiving <= 0;//Receiving is normally low
+			if (RX_Signal == 0)//go to state 1 when RX_Signal goes low during state 0
+			begin
+				RX_Receiving <= 1;
+				RXState <= 1;
+			end
+
+		end//END STATE 0
+		
+		if (RXState == 1)//STATE 1 waiting first half of start bit
+		begin
+			
+			RX_Receiving <= 1;//set Receiving high
+			RX_DataValid <= 0;//DV not valid when in state 1
+			if (Counter == CLK_per_half_bit - 1)//if Counter made it to a half a bit time, exit to state 2
+			begin
+				Counter <= 0;
+				RXState <= 2;
+			end
+			
+			else//else if not at clock per bit, count by one
+			begin
+				Counter <= Counter + 1;
+			end
+	
+		end//END STATE 1
+		
+		if (RXState == 2)//STATE 2 sending bits
+		begin
+			RX_Receiving <= 1;
+			RX_DataValid <= 0;
+			
+			if (Counter == CLK_per_bit - 1)//if Counter made it to clocks in a bit, reset counter to 0, write RX signal to the proper bit in the receiving byte, and exit state if we've hit all 8 bits
+			begin				
+				
+				Counter <= 0;
+				Values[BitReceiving] <= RX_Signal;//write RX_Signal value to appropriate bit
+				
+				if (BitReceiving == 7)//if we've sent 0-7 bits, reset bitsending and exit state
+				begin
+					BitReceiving <= 0;
+					RXState <= 3;
+				end
+				else//if still receiving bits, increment BitReceiving
+				begin
+					BitReceiving <= BitReceiving + 1;
+				end
+				
+			end
+			
+			else//else if not at clock per bit, count by one
+			begin
+
+				Counter <= Counter + 1;
+			end
+	
+		end//END STATE 2	
+	
+		if (RXState == 3)//STATE 3 waiting during second half of the 8th bit rec'd, and waiting during first half of stop bit, so we exit to state 0 on a high RX_Signal
+		begin
+			RX_Receiving <= 1;
+			RX_DataValid <= 0;
+			if (Counter == CLK_per_bit - 1)//if Counter made it to a bit time, exit to state 0 IDLE
+			begin
+				Counter <= 0;
+				RXState <= 0;//reset to idle
+				RX_Receiving <= 0;
+				RX_DataValid <= 1;//DataValid is high
+			end
+			
+			else//else if not at clock per bit, count by one
+			begin
+				Counter <= Counter + 1;
+			end
+	
+		end//END STATE 3	
+	end//end if reset	
+	end//end statemachine
+					
+endmodule
+
+///////////////////////////////////////////////////////////////////////////////////////
+//
+//Module SetParameters:
+//			Module:	"What is my purpose?"
+//			Me:		"You track numbers"
+//			Module:	"Oh my god"
+//
+///////////////////////////////////////////////////////////////////////////////////////
+
+module SetParameters 
+			#(parameter Default_Trigger = 127,// Set Default Trigger value to center of ADC
+			parameter Default_SR = 10//Set Defalt sample rate to 10, so 400ns b/t each data point
+			)
+	 
+			(
+			//Module Inputs: Mostly tied to UARTRX outputs
+			input clk,//duh.
+			input reg [7:0] RecdByte,//Byte from UARTRX
+			input reg RX_DV,//DataValid from UARTRX 
+			input reg RX_Receiving,//RX_Receiving from UARTRX
+			
+			//Module Outputs
+			output reg [7:0] TriggerValue,//output the value to trigger on
+			output reg [3:0] State,
+			output reg [31:0] SampleRate//SampleRate
+			);
+			
+//	reg [3:0] State;//track state, should be b/t 0-11
+	reg [23:0] TempSR;//Temporary sample rate value
+	
+always @ (posedge clk)	
+	begin
+		
+		//Set Defaults
+		if (TriggerValue == 0)
+		begin
+			TriggerValue <= Default_Trigger;
+		end
+		if (SampleRate == 0)
+		begin
+			SampleRate <= Default_SR;
+		end
+		//end default setting
+		
+		//StateMachine
+		//0 - IDLE
+		//1 - Waiting on DV
+		//2 - Received 8'h66, next byte will be Trigger
+		//3 - Receiving went low, waiting on DV to save trigger
+		//4 - Received 8'h69, next 4 bytes will be samplerate
+		//5 - waiting on dv, set first 8 bits of temp when rec'd
+		//6 - waiting on receiving
+		//7 - waiting on dv, set second 8 bits of temp when rec'd
+		//8 - waiting on receiving
+		//9 - waiting on dv, set third 8 bits of temp when rec'd
+		//10 - waiting on receiving
+		//11 - waiting on dv, when rec'd, set 1-3 bytes, set 4th byte, potentially set reset data gathering
+		//12 - wait a clock then go to 0
+		
+		if (State == 0)//STATE 0
+		begin
+			if (RX_Receiving == 1)
+			begin
+				State <= 1;
+			end
+		end//END STATE 0
+		
+		if (State == 1)//STATE 1
+		begin
+			if (RX_DV == 1)
+			begin
+				if (RecdByte == 8'h66)//If 8'h66, receiving trigger next, goto 2
+				begin
+					State <= 2;
+				end
+				else//else if not hex66
+				begin
+					if (RecdByte == 8'h69)//if 8'h69 it's sample rate we're receiving
+					begin
+						State <= 4;
+					end
+					else//not hex 66 or 69 BOOO NOT COOL. DISQUALIFIED
+					begin
+						State <= 12;//WAS state 0
+					end
+				end
+				
+			end//end RX_DV == 1
+		end//END STATE 1
+		
+		if (State == 2)
+		begin
+			if (RX_Receiving == 1)
+			begin
+				State <= 3;
+			end
+		end
+		
+		if (State == 3)//STATE 3
+		begin
+			if (RX_DV == 1)
+			begin
+			
+				TriggerValue <= RecdByte;
+				
+				State <= 0;
+			end
+		end//STATE 3
+		
+		if (State == 4)//STATE 4
+		begin
+			if(RX_Receiving == 1)
+			begin
+				State <= 5;
+			end
+		end//END STATE 4
+		
+		if (State == 5)//STATE 5
+		begin
+			if(RX_DV == 1)
+			begin
+				TempSR[23:16] <= RecdByte;
+				State <= 6;
+			end
+		end//ENDSTATE 5
+		
+		if(State == 6)//STATE 6
+		begin
+			if (RX_Receiving == 1)
+			begin
+				State <= 7;
+			end
+		end//ENDSTATE 6
+		
+		if(State == 7)//ENDSTATE 7
+		begin
+			if (RX_DV == 1)
+			begin
+				TempSR[15:8] <= RecdByte;
+				State <= 8;
+			end
+		end//END STATE 7
+		
+		if (State == 8)//STATE 8
+		begin
+			if (RX_Receiving == 1)
+			begin
+				State <= 9;
+			end
+		end//END STATE 8
+		
+		if (State == 9)//STATE 9
+		begin
+			if(RX_DV == 1)
+			begin
+				TempSR[7:0] <= RecdByte;
+				State <= 10;
+			end
+		end//END STATE 9
+		
+		if (State == 10)//STATE 10
+		begin
+			if (RX_Receiving == 1)
+			begin
+				State <= 11;
+			end
+		end//END STATE 10
+		
+		if (State == 11)//STATE 11
+		begin
+				//SampleRate[31:24] <= TempSR;
+			if (RX_DV == 1)
+			begin
+				SampleRate[31:8] <= TempSR;
+				SampleRate[7:0] <= RecdByte;
+				//Reset data gathering or counter?
+				State <= 0;
+			end
+		end//END STATE 11
+		if (State == 12)
+		begin
+			State <= 0;
+		end
+	end
+endmodule
+
+///////////////////////////////////////////////////////////////////////////////////////
+//Module StoreData:
+//	
+//			Make sure "CollectData" is only high if TriggerVal and SampleRate are not zero
+//			Tie ADC wires up right
+//
+//			On "requestData", can pull values from Values and Tracking 2 Directly
+//
+//			
+//Note: 	Can adapt to trigger on either falling or rising edge of trigger
+//			Can also adapt to output if there is a valid trigger or not to use with single capture
+//			To keep capturing constantly happening, can put "requestData" high once in state 4, and 
+//			just copy the "ValuesToSend" in wrapper that can then be held until the pi requests data again, and copied to the "currently transmitting" array. This can be constantly updated in that fashion
+///////////////////////////////////////////////////////////////////////////////////////
+module StoreData
+			(
+			//Module Inputs
+			input clk,//duh.
+			input wire CLK_25MHz,//feeds ADC CLK
+			input wire ADC_0,//LSB
+			input wire ADC_1,
+			input wire ADC_2,
+			input wire ADC_3,
+			input wire ADC_4,
+			input wire ADC_5,
+			input wire ADC_6,
+			input wire ADC_7,//MSB
+			input reg [7:0] TriggerVal,//holds trigger value
+			input reg [31:0] SampleRate,//holds time between samples, value is multiplied by 40ns in real lyfe
+			input reg RequestData,//When data is requested, this goes high, only keep high for one clock though, please
+			input reg CollectData,//Put high when ready to start collecting data
+			input reg RisingEdge,//tracks if using rising edge or falling edge to trigger. When high, used rising edge
+			
+			//module outputs	
+			output wire ToggleOnSampleFreq,
+			output reg [7:0] Values [511:0],//Holds values	we're collecting
+			output reg [9:0] Tracking2//tracks byte to start writing from
+//			output reg [7:0] ValuesToSend [1023:0],//values collected will be moved here when ready to send
+//			output reg [9:0] TrackingOut//need to send the point in the array to begin the sending process
+			//output reg FullBuffer//Goes high when the buffer is full with a trigger, i.e. is in state 4
+			);
+			
+
+reg [9:0] Tracking;//tracks byte we're writing to 
+
+reg [31:0] Count;//track count
+reg [9:0] Count511;//counts to 511, used to track how full each part of the buffer is
+reg [3:0] State;//track state
+
+always @ (posedge clk)
+	begin
+	
+	if (Tracking == Tracking2)//set tracking values at start
+	begin
+		Tracking2 <= 256;
+	end
+
+		
+	if (CLK_25MHz == 0)//make sure 25 mhz clock is also low at this time
+		begin
+		
+		//StateMachine
+		//0 - IDLE, goto 2 if CollectData
+		//1 - Collecting w/o looking for trigger to fill at 512 bytes
+		//2 - Collecting with 512 bytes, looking for trigger
+		//3 - collecting with trigger and first 512 bytes, looking to fill the rest
+		//4 - got full buffer with trigger, not collecting
+		
+		if (State == 0)//STATE 0
+		begin
+			if (CollectData == 1)
+			begin
+				State <=1;
+			end
+		end//END STATE 0
+		
+		if (State == 1)//STATE 1
+		begin
+			
+			if (Count >= SampleRate - 1)
+			begin
+				Count <= 0;//count resets to 0 when meets sample rate
+				ToggleOnSampleFreq <= ~ToggleOnSampleFreq;
+				//ensure tracking wraps around
+				if (Tracking == 511)
+				begin
+					Tracking <= 0;
+				end
+				else
+				begin
+					Tracking <= Tracking + 1;
+				end
+				
+				if (Tracking2 == 511)
+				begin
+					Tracking2 <= 0;
+				end
+				else
+				begin
+					Tracking2 <= Tracking2 + 1;
+				end
+				//end tracking wrap
+				
+				if (Count511 >= 255)//if we got 511 counts, MAKE 511
+				begin
+					Count511 <= 0;
+					State <= 2;
+				end
+				else
+				begin
+					Count511 <= Count511 + 1;//increment otherwise
+				end
+				//store values
+				Values[Tracking][0] <= ADC_0;
+				Values[Tracking][1] <= ADC_1;
+				Values[Tracking][2] <= ADC_2;
+				Values[Tracking][3] <= ADC_3;
+				Values[Tracking][4] <= ADC_4;
+				Values[Tracking][5] <= ADC_5;
+				Values[Tracking][6] <= ADC_6;
+				Values[Tracking][7] <= ADC_7;
+			end
+			else
+			begin
+				Count <= Count + 1;
+			end//end count compare
+		end//END STATE 1
+		
+		if (State == 2)//STATE 2
+		begin
+			
+			Count511 <= 0;
+			if (Count >= SampleRate - 1)
+			begin
+				Count <= 0;
+				ToggleOnSampleFreq <= ~ToggleOnSampleFreq;
+				if (RisingEdge == 1)
+				begin
+					if (Values[Tracking - 2] < TriggerVal)
+					begin
+						if (Values[Tracking - 1] >= TriggerVal)
+						begin
+							State <= 3;
+						end
+					end
+				end
+				else//else on falling edge
+				begin
+					if (Values[Tracking - 2] > TriggerVal)
+					begin
+						if (Values[Tracking - 1] <= TriggerVal)
+						begin
+							State <= 3;
+						end
+					end
+				end//end rising edge or falling edge trigger
+				
+				//ensure tracking wraps around
+				if (Tracking == 511)
+				begin
+					Tracking <= 0;
+				end
+				else
+				begin
+					Tracking <= Tracking + 1;
+				end
+				
+				if (Tracking2 == 511)
+				begin
+					Tracking2 <= 0;
+				end
+				else
+				begin
+					Tracking2 <= Tracking2 + 1;
+				end
+				//end tracking wrap
+				
+				//store values
+				Values[Tracking][0] <= ADC_0;
+				Values[Tracking][1] <= ADC_1;
+				Values[Tracking][2] <= ADC_2;
+				Values[Tracking][3] <= ADC_3;
+				Values[Tracking][4] <= ADC_4;
+				Values[Tracking][5] <= ADC_5;
+				Values[Tracking][6] <= ADC_6;
+				Values[Tracking][7] <= ADC_7;
+				
+			end
+			else
+			begin
+				Count <= Count + 1;
+			end
+		end//END STATE 2
+		
+		if (State == 3)//STATE 3
+		begin
+			if (Count >= SampleRate - 1)
+			begin
+				Count <= 0;
+				ToggleOnSampleFreq <= ~ToggleOnSampleFreq;
+				//ensure tracking wraps around
+				if (Tracking == 511)
+				begin
+					Tracking <= 0;
+				end
+				else
+				begin
+					Tracking <= Tracking + 1;
+				end
+				
+				if (Tracking2 == 511)
+				begin
+					Tracking2 <= 0;
+				end
+				else
+				begin
+					Tracking2 <= Tracking2 + 1;
+				end
+				//end tracking wrap
+				
+				if (Count511 >= 254)//if we got 510 counts NOW 254
+				begin
+					Count511 <= 0;
+					State <= 4;
+				end
+				else
+				begin
+					Count511 <= Count511 + 1;//increment otherwise
+				end
+				//store values
+				Values[Tracking][0] <= ADC_0;
+				Values[Tracking][1] <= ADC_1;
+				Values[Tracking][2] <= ADC_2;
+				Values[Tracking][3] <= ADC_3;
+				Values[Tracking][4] <= ADC_4;
+				Values[Tracking][5] <= ADC_5;
+				Values[Tracking][6] <= ADC_6;
+				Values[Tracking][7] <= ADC_7;
+				
+			end
+			else
+			begin
+				Count <= Count + 1;
+			end
+			
+		end//END STATE 3
+		
+		if (State == 4)//STATE 4
+		begin
+			//do nothing for now, maybe write Fullbuffer High or some shit
+		end//END STATE 4
+		
+		end//end if CLK_25MHz == 0
+
+	//This could be deleted because what if the timebase is huge? We don't want to throw out all that data. This way it only resets if we made it to state 4, otherwise keeps going.
+	//OTOH if this is deleted, the jump in signals will by at zero
+	if(RequestData == 1)
+	begin
+		Count <= 0;
+		Count511 <= 0;
+		State <= 0;
+	end
+		
+	end//end posedge clk
+
+endmodule
+
+
+
+
+// ascii christmas tree merry christmas enjoy this shit code that could be better
+//fucking statemachines dont work right in verilog it was a mindfuck just figuring out the simplest stuff
+//Hi Ben
+//lemons = hard pp
+//NNN
+
+
+
+//OLD AS SHIT TEST CODE THAT ROTATES THRU ARRAY
+/*
+always @ (negedge Button1)
+	begin
+		if (StoreCount == 10)
+		begin
+			StoreCount <= 0;
+		end
+		
+		else
+		begin
+			StoreCount <= StoreCount + 1;
+		end
+		
+	end
+
+
+always @ (negedge Store_Values)
+	begin
+	Values1[StoreCount][0] <= Pin_GPIO_023;//first number is 0-511 bytes, second number is 0-7 bits
+	Values1[StoreCount][1] <= Pin_GPIO_021;
+	Values1[StoreCount][2] <= Pin_GPIO_019;
+	Values1[StoreCount][3] <= Pin_GPIO_017;
+	Values1[StoreCount][4] <= Pin_GPIO_015;
+	Values1[StoreCount][5] <= Pin_GPIO_013;
+	Values1[StoreCount][6] <= Pin_GPIO_011;
+	Values1[StoreCount][7] <= Pin_GPIO_09;	
+	end
+	
+always @ (negedge Button2)
+	begin
+		if (DisplayCount == 10)//if equals 511
+		begin
+			DisplayCount <= 0;			
+		end
+		
+		else
+		begin
+			DisplayCount <= DisplayCount + 1;
+		end
+		
+	end
+*/
+
+/*
+//you looking at this code to see what 360noscope is made of:
+        ___          
+    . -^   `--,      
+   /# =========`-_   
+  /# (--====___====\ 
+ /#   .- --.  . --.| 
+/##   |  * ) (   * ),
+|##   \    /\ \   / |
+|###   ---   \ ---  |
+|####      ___)    #| 		SHOW ME WHAT YOU GOT
+|######           ##|
+ \##### ---------- / 
+  \####           (  
+   `\###          |  
+     \###         |  
+      \##        |   
+       \###.    .)   
+        `======/   
+*/

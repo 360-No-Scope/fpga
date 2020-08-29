@@ -1,0 +1,1033 @@
+Analysis & Synthesis report for Serial_360
+Tue Dec 03 07:51:27 2019
+Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Analysis & Synthesis Summary
+  3. Analysis & Synthesis Settings
+  4. Parallel Compilation
+  5. Analysis & Synthesis Source Files Read
+  6. Analysis & Synthesis Resource Usage Summary
+  7. Analysis & Synthesis Resource Utilization by Entity
+  8. State Machine - |Serial_360|StateSending
+  9. State Machine - |Serial_360|StoreData:comb_16671|State
+ 10. State Machine - |Serial_360|UARTRX:UARTRX_Inst|RXState
+ 11. State Machine - |Serial_360|UARTSend:UARTSend_Inst|SendingState
+ 12. Registers Removed During Synthesis
+ 13. General Register Statistics
+ 14. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 15. Parameter Settings for User Entity Instance: UARTSend:UARTSend_Inst
+ 16. Parameter Settings for User Entity Instance: UARTRX:UARTRX_Inst
+ 17. Parameter Settings for User Entity Instance: SetParameters:comb_16670
+ 18. Port Connectivity Checks: "StoreData:comb_16671"
+ 19. Port Connectivity Checks: "SetParameters:comb_16670"
+ 20. Port Connectivity Checks: "UARTRX:UARTRX_Inst"
+ 21. Port Connectivity Checks: "UARTSend:UARTSend_Inst"
+ 22. Post-Synthesis Netlist Statistics for Top Partition
+ 23. Elapsed Time Per Partition
+ 24. Analysis & Synthesis Messages
+ 25. Analysis & Synthesis Suppressed Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2018  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+
+
+
++----------------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                                     ;
++------------------------------------+---------------------------------------------+
+; Analysis & Synthesis Status        ; Successful - Tue Dec 03 07:51:26 2019       ;
+; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
+; Revision Name                      ; Serial_360                                  ;
+; Top-level Entity Name              ; Serial_360                                  ;
+; Family                             ; Cyclone IV E                                ;
+; Total logic elements               ; 15,013                                      ;
+;     Total combinational functions  ; 10,884                                      ;
+;     Dedicated logic registers      ; 8,466                                       ;
+; Total registers                    ; 8466                                        ;
+; Total pins                         ; 24                                          ;
+; Total virtual pins                 ; 0                                           ;
+; Total memory bits                  ; 0                                           ;
+; Embedded Multiplier 9-bit elements ; 0                                           ;
+; Total PLLs                         ; 0                                           ;
++------------------------------------+---------------------------------------------+
+
+
++------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Settings                                                                              ;
++------------------------------------------------------------------+--------------------+--------------------+
+; Option                                                           ; Setting            ; Default Value      ;
++------------------------------------------------------------------+--------------------+--------------------+
+; Device                                                           ; EP4CE22F17C6       ;                    ;
+; Top-level entity name                                            ; Serial_360         ; Serial_360         ;
+; Family name                                                      ; Cyclone IV E       ; Cyclone V          ;
+; Use smart compilation                                            ; Off                ; Off                ;
+; Enable parallel Assembler and Timing Analyzer during compilation ; On                 ; On                 ;
+; Enable compact report table                                      ; Off                ; Off                ;
+; Restructure Multiplexers                                         ; Auto               ; Auto               ;
+; Create Debugging Nodes for IP Cores                              ; Off                ; Off                ;
+; Preserve fewer node names                                        ; On                 ; On                 ;
+; Intel FPGA IP Evaluation Mode                                    ; Enable             ; Enable             ;
+; Verilog Version                                                  ; Verilog_2001       ; Verilog_2001       ;
+; VHDL Version                                                     ; VHDL_1993          ; VHDL_1993          ;
+; State Machine Processing                                         ; Auto               ; Auto               ;
+; Safe State Machine                                               ; Off                ; Off                ;
+; Extract Verilog State Machines                                   ; On                 ; On                 ;
+; Extract VHDL State Machines                                      ; On                 ; On                 ;
+; Ignore Verilog initial constructs                                ; Off                ; Off                ;
+; Iteration limit for constant Verilog loops                       ; 5000               ; 5000               ;
+; Iteration limit for non-constant Verilog loops                   ; 250                ; 250                ;
+; Add Pass-Through Logic to Inferred RAMs                          ; On                 ; On                 ;
+; Infer RAMs from Raw Logic                                        ; On                 ; On                 ;
+; Parallel Synthesis                                               ; On                 ; On                 ;
+; DSP Block Balancing                                              ; Auto               ; Auto               ;
+; NOT Gate Push-Back                                               ; On                 ; On                 ;
+; Power-Up Don't Care                                              ; On                 ; On                 ;
+; Remove Redundant Logic Cells                                     ; Off                ; Off                ;
+; Remove Duplicate Registers                                       ; On                 ; On                 ;
+; Ignore CARRY Buffers                                             ; Off                ; Off                ;
+; Ignore CASCADE Buffers                                           ; Off                ; Off                ;
+; Ignore GLOBAL Buffers                                            ; Off                ; Off                ;
+; Ignore ROW GLOBAL Buffers                                        ; Off                ; Off                ;
+; Ignore LCELL Buffers                                             ; Off                ; Off                ;
+; Ignore SOFT Buffers                                              ; On                 ; On                 ;
+; Limit AHDL Integers to 32 Bits                                   ; Off                ; Off                ;
+; Optimization Technique                                           ; Balanced           ; Balanced           ;
+; Carry Chain Length                                               ; 70                 ; 70                 ;
+; Auto Carry Chains                                                ; On                 ; On                 ;
+; Auto Open-Drain Pins                                             ; On                 ; On                 ;
+; Perform WYSIWYG Primitive Resynthesis                            ; Off                ; Off                ;
+; Auto ROM Replacement                                             ; On                 ; On                 ;
+; Auto RAM Replacement                                             ; On                 ; On                 ;
+; Auto DSP Block Replacement                                       ; On                 ; On                 ;
+; Auto Shift Register Replacement                                  ; Auto               ; Auto               ;
+; Allow Shift Register Merging across Hierarchies                  ; Auto               ; Auto               ;
+; Auto Clock Enable Replacement                                    ; On                 ; On                 ;
+; Strict RAM Replacement                                           ; Off                ; Off                ;
+; Allow Synchronous Control Signals                                ; On                 ; On                 ;
+; Force Use of Synchronous Clear Signals                           ; Off                ; Off                ;
+; Auto RAM Block Balancing                                         ; On                 ; On                 ;
+; Auto RAM to Logic Cell Conversion                                ; Off                ; Off                ;
+; Auto Resource Sharing                                            ; Off                ; Off                ;
+; Allow Any RAM Size For Recognition                               ; Off                ; Off                ;
+; Allow Any ROM Size For Recognition                               ; Off                ; Off                ;
+; Allow Any Shift Register Size For Recognition                    ; Off                ; Off                ;
+; Use LogicLock Constraints during Resource Balancing              ; On                 ; On                 ;
+; Ignore translate_off and synthesis_off directives                ; Off                ; Off                ;
+; Timing-Driven Synthesis                                          ; On                 ; On                 ;
+; Report Parameter Settings                                        ; On                 ; On                 ;
+; Report Source Assignments                                        ; On                 ; On                 ;
+; Report Connectivity Checks                                       ; On                 ; On                 ;
+; Ignore Maximum Fan-Out Assignments                               ; Off                ; Off                ;
+; Synchronization Register Chain Length                            ; 2                  ; 2                  ;
+; Power Optimization During Synthesis                              ; Normal compilation ; Normal compilation ;
+; HDL message level                                                ; Level2             ; Level2             ;
+; Suppress Register Optimization Related Messages                  ; Off                ; Off                ;
+; Number of Removed Registers Reported in Synthesis Report         ; 5000               ; 5000               ;
+; Number of Swept Nodes Reported in Synthesis Report               ; 5000               ; 5000               ;
+; Number of Inverted Registers Reported in Synthesis Report        ; 100                ; 100                ;
+; Clock MUX Protection                                             ; On                 ; On                 ;
+; Auto Gated Clock Conversion                                      ; Off                ; Off                ;
+; Block Design Naming                                              ; Auto               ; Auto               ;
+; SDC constraint protection                                        ; Off                ; Off                ;
+; Synthesis Effort                                                 ; Auto               ; Auto               ;
+; Shift Register Replacement - Allow Asynchronous Clear Signal     ; On                 ; On                 ;
+; Pre-Mapping Resynthesis Optimization                             ; Off                ; Off                ;
+; Analysis & Synthesis Message Level                               ; Medium             ; Medium             ;
+; Disable Register Merging Across Hierarchies                      ; Auto               ; Auto               ;
+; Resource Aware Inference For Block RAM                           ; On                 ; On                 ;
++------------------------------------------------------------------+--------------------+--------------------+
+
+
++------------------------------------------+
+; Parallel Compilation                     ;
++----------------------------+-------------+
+; Processors                 ; Number      ;
++----------------------------+-------------+
+; Number detected on machine ; 4           ;
+; Maximum allowed            ; 2           ;
+;                            ;             ;
+; Average used               ; 1.00        ;
+; Maximum used               ; 2           ;
+;                            ;             ;
+; Usage by Processor         ; % Time Used ;
+;     Processor 1            ; 100.0%      ;
+;     Processor 2            ;   0.3%      ;
++----------------------------+-------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                       ;
++----------------------------------+-----------------+------------------------+----------------------------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type              ; File Name with Absolute Path                                         ; Library ;
++----------------------------------+-----------------+------------------------+----------------------------------------------------------------------+---------+
+; Serial_360.v                     ; yes             ; User Verilog HDL File  ; C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v ;         ;
++----------------------------------+-----------------+------------------------+----------------------------------------------------------------------+---------+
+
+
++---------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary             ;
++---------------------------------------------+-----------+
+; Resource                                    ; Usage     ;
++---------------------------------------------+-----------+
+; Estimated Total logic elements              ; 15,013    ;
+;                                             ;           ;
+; Total combinational functions               ; 10884     ;
+; Logic element usage by number of LUT inputs ;           ;
+;     -- 4 input functions                    ; 10388     ;
+;     -- 3 input functions                    ; 234       ;
+;     -- <=2 input functions                  ; 262       ;
+;                                             ;           ;
+; Logic elements by mode                      ;           ;
+;     -- normal mode                          ; 10662     ;
+;     -- arithmetic mode                      ; 222       ;
+;                                             ;           ;
+; Total registers                             ; 8466      ;
+;     -- Dedicated logic registers            ; 8466      ;
+;     -- I/O registers                        ; 0         ;
+;                                             ;           ;
+; I/O pins                                    ; 24        ;
+;                                             ;           ;
+; Embedded Multiplier 9-bit elements          ; 0         ;
+;                                             ;           ;
+; Maximum fan-out node                        ; clk~input ;
+; Maximum fan-out                             ; 8466      ;
+; Total fan-out                               ; 64170     ;
+; Average fan-out                             ; 3.31      ;
++---------------------------------------------+-----------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                            ;
++-------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------+---------------+--------------+
+; Compilation Hierarchy Node    ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                  ; Entity Name   ; Library Name ;
++-------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------+---------------+--------------+
+; |Serial_360                   ; 10884 (6871)        ; 8466 (4132)               ; 0           ; 0            ; 0       ; 0         ; 24   ; 0            ; |Serial_360                          ; Serial_360    ; work         ;
+;    |SetParameters:comb_16670| ; 82 (82)             ; 68 (68)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Serial_360|SetParameters:comb_16670 ; SetParameters ; work         ;
+;    |StoreData:comb_16671|     ; 3777 (3777)         ; 4164 (4164)               ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Serial_360|StoreData:comb_16671     ; StoreData     ; work         ;
+;    |UARTRX:UARTRX_Inst|       ; 83 (83)             ; 51 (51)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Serial_360|UARTRX:UARTRX_Inst       ; UARTRX        ; work         ;
+;    |UARTSend:UARTSend_Inst|   ; 71 (71)             ; 51 (51)                   ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |Serial_360|UARTSend:UARTSend_Inst   ; UARTSend      ; work         ;
++-------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------+---------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
+Encoding Type:  One-Hot
++---------------------------------------------------------------------------+
+; State Machine - |Serial_360|StateSending                                  ;
++------------------+------------------+------------------+------------------+
+; Name             ; StateSending.000 ; StateSending.010 ; StateSending.001 ;
++------------------+------------------+------------------+------------------+
+; StateSending.000 ; 0                ; 0                ; 0                ;
+; StateSending.001 ; 1                ; 0                ; 1                ;
+; StateSending.010 ; 1                ; 1                ; 0                ;
++------------------+------------------+------------------+------------------+
+
+
+Encoding Type:  One-Hot
++-----------------------------------------------------------------------------+
+; State Machine - |Serial_360|StoreData:comb_16671|State                      ;
++------------+------------+------------+------------+------------+------------+
+; Name       ; State.0011 ; State.0010 ; State.0001 ; State.0000 ; State.0100 ;
++------------+------------+------------+------------+------------+------------+
+; State.0000 ; 0          ; 0          ; 0          ; 0          ; 0          ;
+; State.0001 ; 0          ; 0          ; 1          ; 1          ; 0          ;
+; State.0010 ; 0          ; 1          ; 0          ; 1          ; 0          ;
+; State.0011 ; 1          ; 0          ; 0          ; 1          ; 0          ;
+; State.0100 ; 0          ; 0          ; 0          ; 1          ; 1          ;
++------------+------------+------------+------------+------------+------------+
+
+
+Encoding Type:  One-Hot
++---------------------------------------------------------------------+
+; State Machine - |Serial_360|UARTRX:UARTRX_Inst|RXState              ;
++-------------+-------------+-------------+-------------+-------------+
+; Name        ; RXState.011 ; RXState.010 ; RXState.001 ; RXState.000 ;
++-------------+-------------+-------------+-------------+-------------+
+; RXState.000 ; 0           ; 0           ; 0           ; 0           ;
+; RXState.001 ; 0           ; 0           ; 1           ; 1           ;
+; RXState.010 ; 0           ; 1           ; 0           ; 1           ;
+; RXState.011 ; 1           ; 0           ; 0           ; 1           ;
++-------------+-------------+-------------+-------------+-------------+
+
+
+Encoding Type:  One-Hot
++----------------------------------------------------------------------------------------------+
+; State Machine - |Serial_360|UARTSend:UARTSend_Inst|SendingState                              ;
++------------------+------------------+------------------+------------------+------------------+
+; Name             ; SendingState.011 ; SendingState.010 ; SendingState.001 ; SendingState.000 ;
++------------------+------------------+------------------+------------------+------------------+
+; SendingState.000 ; 0                ; 0                ; 0                ; 0                ;
+; SendingState.001 ; 0                ; 0                ; 1                ; 1                ;
+; SendingState.010 ; 0                ; 1                ; 0                ; 1                ;
+; SendingState.011 ; 1                ; 0                ; 0                ; 1                ;
++------------------+------------------+------------------+------------------+------------------+
+
+
++-------------------------------------------------------------+
+; Registers Removed During Synthesis                          ;
++----------------------------------------+--------------------+
+; Register name                          ; Reason for Removal ;
++----------------------------------------+--------------------+
+; StateSending~7                         ; Lost fanout        ;
+; StoreData:comb_16671|State~7           ; Lost fanout        ;
+; StoreData:comb_16671|State~8           ; Lost fanout        ;
+; StoreData:comb_16671|State~10          ; Lost fanout        ;
+; UARTRX:UARTRX_Inst|RXState~6           ; Lost fanout        ;
+; UARTRX:UARTRX_Inst|RXState~7           ; Lost fanout        ;
+; UARTRX:UARTRX_Inst|RXState~8           ; Lost fanout        ;
+; UARTSend:UARTSend_Inst|SendingState~6  ; Lost fanout        ;
+; UARTSend:UARTSend_Inst|SendingState~7  ; Lost fanout        ;
+; UARTSend:UARTSend_Inst|SendingState~8  ; Lost fanout        ;
+; Total Number of Removed Registers = 10 ;                    ;
++----------------------------------------+--------------------+
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 8466  ;
+; Number of registers using Synchronous Clear  ; 85    ;
+; Number of registers using Synchronous Load   ; 20    ;
+; Number of registers using Asynchronous Clear ; 0     ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 4313  ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                     ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                           ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------+
+; 3:1                ; 32 bits   ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |Serial_360|UARTSend:UARTSend_Inst|Counter[26]       ;
+; 3:1                ; 32 bits   ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |Serial_360|SetParameters:comb_16670|SampleRate[12]  ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |Serial_360|SetParameters:comb_16670|TriggerValue[1] ;
+; 3:1                ; 9 bits    ; 18 LEs        ; 9 LEs                ; 9 LEs                  ; Yes        ; |Serial_360|TrackingSend[1]                          ;
+; 4:1                ; 11 bits   ; 22 LEs        ; 11 LEs               ; 11 LEs                 ; Yes        ; |Serial_360|Count1023[10]                            ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[511][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[510][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[509][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[508][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[507][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[506][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[505][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[504][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[503][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[502][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[501][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[500][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[499][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[498][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[497][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[496][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[495][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[494][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[493][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[492][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[491][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[490][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[489][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[488][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[487][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[486][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[485][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[484][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[483][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[482][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[481][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[480][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[479][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[478][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[477][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[476][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[475][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[474][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[473][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[472][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[471][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[470][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[469][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[468][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[467][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[466][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[465][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[464][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[463][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[462][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[461][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[460][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[459][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[458][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[457][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[456][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[455][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[454][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[453][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[452][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[451][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[450][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[449][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[448][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[447][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[446][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[445][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[444][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[443][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[442][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[441][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[440][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[439][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[438][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[437][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[436][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[435][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[434][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[433][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[432][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[431][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[430][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[429][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[428][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[427][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[426][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[425][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[424][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[423][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[422][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[421][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[420][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[419][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[418][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[417][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[416][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[415][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[414][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[413][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[412][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[411][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[410][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[409][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[408][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[407][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[406][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[405][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[404][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[403][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[402][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[401][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[400][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[399][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[398][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[397][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[396][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[395][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[394][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[393][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[392][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[391][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[390][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[389][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[388][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[387][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[386][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[385][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[384][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[383][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[382][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[381][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[380][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[379][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[378][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[377][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[376][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[375][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[374][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[373][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[372][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[371][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[370][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[369][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[368][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[367][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[366][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[365][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[364][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[363][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[362][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[361][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[360][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[359][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[358][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[357][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[356][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[355][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[354][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[353][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[352][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[351][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[350][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[349][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[348][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[347][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[346][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[345][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[344][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[343][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[342][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[341][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[340][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[339][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[338][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[337][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[336][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[335][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[334][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[333][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[332][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[331][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[330][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[329][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[328][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[327][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[326][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[325][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[324][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[323][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[322][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[321][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[320][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[319][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[318][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[317][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[316][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[315][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[314][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[313][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[312][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[311][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[310][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[309][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[308][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[307][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[306][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[305][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[304][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[303][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[302][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[301][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[300][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[299][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[298][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[297][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[296][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[295][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[294][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[293][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[292][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[291][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[290][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[289][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[288][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[287][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[286][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[285][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[284][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[283][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[282][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[281][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[280][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[279][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[278][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[277][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[276][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[275][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[274][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[273][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[272][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[271][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[270][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[269][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[268][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[267][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[266][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[265][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[264][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[263][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[262][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[261][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[260][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[259][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[258][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[257][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[256][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[255][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[254][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[253][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[252][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[251][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[250][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[249][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[248][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[247][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[246][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[245][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[244][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[243][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[242][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[241][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[240][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[239][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[238][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[237][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[236][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[235][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[234][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[233][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[232][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[231][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[230][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[229][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[228][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[227][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[226][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[225][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[224][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[223][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[222][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[221][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[220][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[219][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[218][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[217][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[216][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[215][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[214][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[213][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[212][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[211][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[210][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[209][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[208][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[207][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[206][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[205][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[204][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[203][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[202][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[201][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[200][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[199][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[198][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[197][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[196][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[195][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[194][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[193][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[192][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[191][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[190][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[189][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[188][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[187][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[186][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[185][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[184][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[183][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[182][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[181][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[180][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[179][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[178][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[177][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[176][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[175][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[174][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[173][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[172][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[171][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[170][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[169][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[168][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[167][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[166][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[165][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[164][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[163][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[162][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[161][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[160][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[159][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[158][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[157][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[156][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[155][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[154][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[153][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[152][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[151][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[150][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[149][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[148][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[147][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[146][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[145][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[144][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[143][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[142][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[141][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[140][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[139][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[138][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[137][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[136][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[135][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[134][1]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[133][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[132][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[131][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[130][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[129][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[128][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[127][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[126][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[125][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[124][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[123][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[122][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[121][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[120][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[119][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[118][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[117][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[116][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[115][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[114][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[113][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[112][2]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[111][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[110][0]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[109][4]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[108][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[107][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[106][6]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[105][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[104][3]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[103][7]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[102][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[101][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[100][5]      ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[99][5]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[98][3]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[97][4]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[96][0]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[95][0]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[94][5]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[93][3]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[92][7]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[91][2]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[90][0]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[89][2]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[88][6]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[87][7]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[86][2]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[85][5]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[84][4]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[83][4]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[82][4]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[81][4]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[80][4]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[79][3]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[78][2]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[77][2]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[76][6]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[75][6]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[74][6]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[73][6]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[72][1]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[71][7]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[70][1]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[69][6]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[68][7]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[67][5]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[66][5]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[65][5]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[64][5]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[63][5]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[62][5]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[61][5]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[60][5]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[59][6]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[58][6]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[57][5]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[56][6]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[55][6]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[54][4]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[53][4]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[52][1]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[51][4]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[50][1]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[49][1]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[48][6]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[47][5]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[46][7]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[45][6]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[44][0]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[43][3]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[42][3]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[41][3]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[40][3]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[39][2]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[38][2]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[37][4]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[36][3]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[35][3]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[34][1]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[33][2]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[32][1]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[31][3]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[30][3]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[29][1]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[28][1]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[27][2]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[26][2]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[25][5]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[24][6]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[23][3]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[22][3]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[21][3]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[20][7]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[19][7]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[18][4]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[17][4]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[16][2]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[15][0]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[14][0]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[13][5]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[12][6]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[11][3]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[10][3]       ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[9][4]        ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[8][7]        ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[7][5]        ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[6][0]        ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[5][1]        ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[4][7]        ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[3][7]        ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[2][7]        ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[1][0]        ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Values[0][5]        ;
+; 4:1                ; 32 bits   ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Count[9]            ;
+; 5:1                ; 32 bits   ; 96 LEs        ; 32 LEs               ; 64 LEs                 ; Yes        ; |Serial_360|UARTRX:UARTRX_Inst|Counter[18]           ;
+; 3:1                ; 10 bits   ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Tracking[2]         ;
+; 4:1                ; 10 bits   ; 20 LEs        ; 20 LEs               ; 0 LEs                  ; Yes        ; |Serial_360|StoreData:comb_16671|Tracking2[4]        ;
+; 8:1                ; 10 bits   ; 50 LEs        ; 10 LEs               ; 40 LEs                 ; Yes        ; |Serial_360|StoreData:comb_16671|Count511[3]         ;
+; 512:1              ; 8 bits    ; 2728 LEs      ; 2728 LEs             ; 0 LEs                  ; Yes        ; |Serial_360|ByteToSend[4]                            ;
+; 4:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |Serial_360|StoreData:comb_16671|Mux0                ;
+; 5:1                ; 3 bits    ; 9 LEs         ; 9 LEs                ; 0 LEs                  ; No         ; |Serial_360|UARTRX:UARTRX_Inst|RXState               ;
+; 5:1                ; 4 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |Serial_360|UARTSend:UARTSend_Inst|SendingState      ;
+; 7:1                ; 4 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |Serial_360|StoreData:comb_16671|State               ;
+; 8:1                ; 8 bits    ; 40 LEs        ; 40 LEs               ; 0 LEs                  ; No         ; |Serial_360|StoreData:comb_16671|Mux2                ;
+; 10:1               ; 8 bits    ; 48 LEs        ; 48 LEs               ; 0 LEs                  ; No         ; |Serial_360|StoreData:comb_16671|Mux0                ;
+; 10:1               ; 8 bits    ; 48 LEs        ; 48 LEs               ; 0 LEs                  ; No         ; |Serial_360|StoreData:comb_16671|Mux8                ;
+; 16:1               ; 8 bits    ; 80 LEs        ; 80 LEs               ; 0 LEs                  ; No         ; |Serial_360|StoreData:comb_16671|Mux0                ;
+; 32:1               ; 8 bits    ; 168 LEs       ; 168 LEs              ; 0 LEs                  ; No         ; |Serial_360|StoreData:comb_16671|Mux0                ;
+; 64:1               ; 8 bits    ; 336 LEs       ; 336 LEs              ; 0 LEs                  ; No         ; |Serial_360|StoreData:comb_16671|Mux0                ;
+; 128:1              ; 8 bits    ; 680 LEs       ; 680 LEs              ; 0 LEs                  ; No         ; |Serial_360|StoreData:comb_16671|Mux0                ;
+; 256:1              ; 8 bits    ; 1360 LEs      ; 1360 LEs             ; 0 LEs                  ; No         ; |Serial_360|StoreData:comb_16671|Mux0                ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------+
+
+
++---------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: UARTSend:UARTSend_Inst ;
++----------------+-------+--------------------------------------------+
+; Parameter Name ; Value ; Type                                       ;
++----------------+-------+--------------------------------------------+
+; CLK_per_bit    ; 434   ; Signed Integer                             ;
++----------------+-------+--------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: UARTRX:UARTRX_Inst ;
++------------------+-------+--------------------------------------+
+; Parameter Name   ; Value ; Type                                 ;
++------------------+-------+--------------------------------------+
+; CLK_per_bit      ; 434   ; Signed Integer                       ;
+; CLK_per_half_bit ; 217   ; Signed Integer                       ;
++------------------+-------+--------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: SetParameters:comb_16670 ;
++-----------------+-------+---------------------------------------------+
+; Parameter Name  ; Value ; Type                                        ;
++-----------------+-------+---------------------------------------------+
+; Default_Trigger ; 20    ; Signed Integer                              ;
+; Default_SR      ; 97656 ; Signed Integer                              ;
++-----------------+-------+---------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "StoreData:comb_16671"                                                                       ;
++--------------+--------+----------+-------------------------------------------------------------------------------------+
+; Port         ; Type   ; Severity ; Details                                                                             ;
++--------------+--------+----------+-------------------------------------------------------------------------------------+
+; RisingEdge   ; Input  ; Info     ; Stuck at VCC                                                                        ;
+; Tracking2[9] ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++--------------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "SetParameters:comb_16670"                                                            ;
++-------+--------+----------+-------------------------------------------------------------------------------------+
+; Port  ; Type   ; Severity ; Details                                                                             ;
++-------+--------+----------+-------------------------------------------------------------------------------------+
+; State ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++-------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "UARTRX:UARTRX_Inst"                                                                                                                                                                    ;
++-----------+-------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Port      ; Type  ; Severity ; Details                                                                                                                                                                            ;
++-----------+-------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Reset     ; Input ; Warning  ; Input port expression (32 bits) is wider than the input port (1 bits) it drives.  The 31 most-significant bit(s) in the expression will be dangling if they have no other fanouts. ;
+; Reset[-1] ; Input ; Info     ; Stuck at VCC                                                                                                                                                                       ;
++-----------+-------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "UARTSend:UARTSend_Inst"                                                                   ;
++------------+--------+----------+-------------------------------------------------------------------------------------+
+; Port       ; Type   ; Severity ; Details                                                                             ;
++------------+--------+----------+-------------------------------------------------------------------------------------+
+; TX_Sending ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++------------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++-----------------------------------------------------+
+; Post-Synthesis Netlist Statistics for Top Partition ;
++-----------------------+-----------------------------+
+; Type                  ; Count                       ;
++-----------------------+-----------------------------+
+; boundary_port         ; 24                          ;
+; cycloneiii_ff         ; 8466                        ;
+;     ENA               ; 4230                        ;
+;     ENA SCLR          ; 74                          ;
+;     ENA SLD           ; 9                           ;
+;     SCLR SLD          ; 11                          ;
+;     plain             ; 4142                        ;
+; cycloneiii_lcell_comb ; 10884                       ;
+;     arith             ; 222                         ;
+;         2 data inputs ; 177                         ;
+;         3 data inputs ; 45                          ;
+;     normal            ; 10662                       ;
+;         1 data inputs ; 13                          ;
+;         2 data inputs ; 72                          ;
+;         3 data inputs ; 189                         ;
+;         4 data inputs ; 10388                       ;
+;                       ;                             ;
+; Max LUT depth         ; 15.70                       ;
+; Average LUT depth     ; 7.78                        ;
++-----------------------+-----------------------------+
+
+
++-------------------------------+
+; Elapsed Time Per Partition    ;
++----------------+--------------+
+; Partition Name ; Elapsed Time ;
++----------------+--------------+
+; Top            ; 00:01:19     ;
++----------------+--------------+
+
+
++-------------------------------+
+; Analysis & Synthesis Messages ;
++-------------------------------+
+Info: *******************************************************************
+Info: Running Quartus Prime Analysis & Synthesis
+    Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
+    Info: Processing started: Tue Dec 03 07:49:42 2019
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off Serial_360 -c Serial_360
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+Info (20030): Parallel compilation is enabled and will use 2 of the 2 processors detected
+Warning (10275): Verilog HDL Module Instantiation warning at Serial_360.v(294): ignored dangling comma in List of Port Connections File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 294
+Info (12021): Found 5 design units, including 5 entities, in source file serial_360.v
+    Info (12023): Found entity 1: Serial_360 File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 20
+    Info (12023): Found entity 2: UARTSend File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 379
+    Info (12023): Found entity 3: UARTRX File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 519
+    Info (12023): Found entity 4: SetParameters File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 652
+    Info (12023): Found entity 5: StoreData File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 843
+Critical Warning (10846): Verilog HDL Instantiation warning at Serial_360.v(268): instance has no name File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 268
+Critical Warning (10846): Verilog HDL Instantiation warning at Serial_360.v(294): instance has no name File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 294
+Info (12127): Elaborating entity "Serial_360" for the top level hierarchy
+Warning (10230): Verilog HDL assignment warning at Serial_360.v(138): truncated value with size 10 to match size of target (9) File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 138
+Warning (10230): Verilog HDL assignment warning at Serial_360.v(164): truncated value with size 32 to match size of target (9) File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 164
+Warning (10230): Verilog HDL assignment warning at Serial_360.v(166): truncated value with size 32 to match size of target (11) File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 166
+Warning (10230): Verilog HDL assignment warning at Serial_360.v(196): truncated value with size 32 to match size of target (11) File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 196
+Info (12128): Elaborating entity "UARTSend" for hierarchy "UARTSend:UARTSend_Inst" File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 233
+Warning (10230): Verilog HDL assignment warning at Serial_360.v(459): truncated value with size 32 to match size of target (5) File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 459
+Info (12128): Elaborating entity "UARTRX" for hierarchy "UARTRX:UARTRX_Inst" File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 250
+Warning (10230): Verilog HDL assignment warning at Serial_360.v(607): truncated value with size 32 to match size of target (5) File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 607
+Info (12128): Elaborating entity "SetParameters" for hierarchy "SetParameters:comb_16670" File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 268
+Warning (10230): Verilog HDL assignment warning at Serial_360.v(679): truncated value with size 32 to match size of target (8) File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 679
+Info (12128): Elaborating entity "StoreData" for hierarchy "StoreData:comb_16671" File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 294
+Warning (10230): Verilog HDL assignment warning at Serial_360.v(919): truncated value with size 32 to match size of target (10) File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 919
+Warning (10230): Verilog HDL assignment warning at Serial_360.v(928): truncated value with size 32 to match size of target (10) File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 928
+Warning (10230): Verilog HDL assignment warning at Serial_360.v(939): truncated value with size 32 to match size of target (10) File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 939
+Warning (10230): Verilog HDL assignment warning at Serial_360.v(993): truncated value with size 32 to match size of target (10) File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 993
+Warning (10230): Verilog HDL assignment warning at Serial_360.v(1002): truncated value with size 32 to match size of target (10) File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 1002
+Warning (10230): Verilog HDL assignment warning at Serial_360.v(1036): truncated value with size 32 to match size of target (10) File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 1036
+Warning (10230): Verilog HDL assignment warning at Serial_360.v(1045): truncated value with size 32 to match size of target (10) File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 1045
+Warning (10230): Verilog HDL assignment warning at Serial_360.v(1056): truncated value with size 32 to match size of target (10) File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 1056
+Warning (12241): 1 hierarchies have connectivity warnings - see the Connectivity Checks report folder
+Info (286030): Timing-Driven Synthesis is running
+Info (17049): 10 registers lost all their fanouts during netlist optimizations.
+Info (144001): Generated suppressed messages file C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/output_files/Serial_360.map.smsg
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
+Warning (21074): Design contains 2 input pin(s) that do not drive logic
+    Warning (15610): No output dependent on input pin "Button1" File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 21
+    Warning (15610): No output dependent on input pin "Button2" File: C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/Serial_360.v Line: 22
+Info (21057): Implemented 15038 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 13 input pins
+    Info (21059): Implemented 11 output pins
+    Info (21061): Implemented 15014 logic cells
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 23 warnings
+    Info: Peak virtual memory: 731 megabytes
+    Info: Processing ended: Tue Dec 03 07:51:27 2019
+    Info: Elapsed time: 00:01:45
+    Info: Total CPU time (on all processors): 00:02:06
+
+
++------------------------------------------+
+; Analysis & Synthesis Suppressed Messages ;
++------------------------------------------+
+The suppressed messages can be found in C:/Users/Matt/Documents/FPGA code/Serial_360/Serial_360/output_files/Serial_360.map.smsg.
+
+

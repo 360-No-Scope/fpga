@@ -1,0 +1,14 @@
+Analysis & Synthesis Status : Successful - Tue Dec 03 07:51:26 2019
+Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
+Revision Name : Serial_360
+Top-level Entity Name : Serial_360
+Family : Cyclone IV E
+Total logic elements : 15,013
+    Total combinational functions : 10,884
+    Dedicated logic registers : 8,466
+Total registers : 8466
+Total pins : 24
+Total virtual pins : 0
+Total memory bits : 0
+Embedded Multiplier 9-bit elements : 0
+Total PLLs : 0
